@@ -5,7 +5,7 @@ import flet_audio as fta
 
 def main(page: ft.Page):
     page.title = "🎵 Flet Music Player"
-    page.bgcolor = "#0f1117"
+    page.bgcolor = "#111627"
     page.padding = 0
     page.window.width = 900
     page.window.height = 700
@@ -118,7 +118,8 @@ def main(page: ft.Page):
 
         current_time.value = format_time(position_ms)
 
-        page.update()
+        #page.update()
+        update_ui()
 
     def on_duration_change(e):
         nonlocal duration_ms
@@ -129,7 +130,8 @@ def main(page: ft.Page):
 
         progress.value = 0
 
-        page.update()
+        #page.update()
+        update_ui()
 
     def on_state_change(e):
         nonlocal is_playing
@@ -148,7 +150,8 @@ def main(page: ft.Page):
             is_playing = False
             play_button.icon = ft.Icons.PLAY_ARROW_ROUNDED
 
-        page.update()
+        #page.update()
+        update_ui()
 
     # ---------------------------------------------------------
     # Crear reproductor
@@ -159,7 +162,8 @@ def main(page: ft.Page):
             src=path,
             autoplay=False,
             volume=volume,
-            release_mode=fta.ReleaseMode.STOP,
+            #release_mode=fta.ReleaseMode.STOP,
+            release_mode=fta.ReleaseMode.LOOP,
             on_position_change=on_position_change,
             on_duration_change=on_duration_change,
             on_state_change=on_state_change,
@@ -211,6 +215,8 @@ def main(page: ft.Page):
 
         page.services.append(current_audio)
 
+        update_ui()
+
         await current_audio.play()
 
         is_playing = True
@@ -218,7 +224,8 @@ def main(page: ft.Page):
 
         update_playlist_ui()
 
-        page.update()
+        #page.update()
+        
 
     # ---------------------------------------------------------
     # Play / Pause
@@ -245,7 +252,8 @@ def main(page: ft.Page):
             is_playing = True
             play_button.icon = ft.Icons.PAUSE_ROUNDED
 
-        page.update()
+        #page.update()
+        update_ui()
 
     # ---------------------------------------------------------
     # Canción anterior
@@ -302,7 +310,8 @@ def main(page: ft.Page):
         if current_audio is not None:
             current_audio.volume = volume
 
-        page.update()
+        #page.update()
+        update_ui()
 
     # ---------------------------------------------------------
     # File Picker
@@ -350,11 +359,12 @@ def main(page: ft.Page):
             )
 
         update_playlist_ui()
-
+        update_ui()
         # Si todavía no hay canción, reproducir la primera
         if current_audio is None and playlist:
             await play_song(0)
 
+        #update_ui()
     # ---------------------------------------------------------
     # Lista de reproducción
     # ---------------------------------------------------------
@@ -429,7 +439,8 @@ def main(page: ft.Page):
 
             playlist_view.controls.append(item)
 
-        page.update()
+        #page.update()
+        update_ui()
 
     # ---------------------------------------------------------
     # Limpiar playlist
@@ -467,6 +478,7 @@ def main(page: ft.Page):
         play_button.icon = ft.Icons.PLAY_ARROW_ROUNDED
 
         update_playlist_ui()
+        update_ui()
 
     # ---------------------------------------------------------
     # INTERFAZ
